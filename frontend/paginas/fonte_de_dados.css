@@ -1,0 +1,742 @@
+/* ========================================
+   ANÁLISE DE DADOS - TERMÔMETRO DO MARANHÃO
+   COM SISTEMA DE GRÁFICOS INTERATIVOS
+   ======================================== */
+
+:root {
+    --primary: #2563eb;
+    --primary-dark: #1e40af;
+    --secondary: #06b6d4;
+    --success: #10b981;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+    --purple: #8b5cf6;
+    
+    --gray-50: #f9fafb;
+    --gray-100: #f3f4f6;
+    --gray-200: #e5e7eb;
+    --gray-300: #d1d5db;
+    --gray-400: #9ca3af;
+    --gray-500: #6b7280;
+    --gray-700: #374151;
+    --gray-800: #1f2937;
+    --gray-900: #111827;
+    
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--gray-50);
+    color: var(--gray-800);
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+}
+
+/* ========== HEADER ========== */
+header {
+    background: white;
+    border-bottom: 1px solid var(--gray-200);
+    box-shadow: var(--shadow-sm);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    padding: 1rem 0;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.logo i {
+    font-size: 1.75rem;
+    color: var(--primary);
+}
+
+.logo h1 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--gray-900);
+}
+
+.header-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.action-btn {
+    padding: 0.6rem 1.2rem;
+    border: 2px solid var(--gray-300);
+    background: white;
+    color: var(--gray-700);
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.action-btn:hover {
+    background: var(--gray-50);
+    border-color: var(--gray-400);
+    transform: translateY(-1px);
+}
+
+.action-btn.primary {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+
+.action-btn.primary:hover {
+    background: var(--primary-dark);
+    border-color: var(--primary-dark);
+}
+
+/* ========== FILTROS ========== */
+.filters-section {
+    padding: 1.5rem 0;
+}
+
+.filters-card {
+    background: white;
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    padding: 1.5rem;
+}
+
+.filters-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid var(--gray-100);
+}
+
+.filters-header h2 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--gray-900);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn-reset {
+    padding: 0.4rem 0.8rem;
+    border: 1px solid var(--danger);
+    background: white;
+    color: var(--danger);
+    border-radius: 5px;
+    font-weight: 600;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.btn-reset:hover {
+    background: var(--danger);
+    color: white;
+}
+
+.filters-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.filter-group.full-width {
+    grid-column: 1 / -1;
+}
+
+.filter-group label {
+    font-weight: 600;
+    font-size: 0.8rem;
+    color: var(--gray-700);
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.filter-group select,
+.filter-group input {
+    padding: 0.6rem;
+    border: 2px solid var(--gray-200);
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 0.8rem;
+    color: var(--gray-700);
+    background: white;
+    transition: all 0.2s;
+}
+
+.filter-group select:focus,
+.filter-group input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.filter-results {
+    padding: 0.8rem;
+    background: var(--gray-50);
+    border-radius: 6px;
+    text-align: center;
+    font-weight: 600;
+    color: var(--gray-700);
+    font-size: 0.9rem;
+}
+
+/* ========== MÉTRICAS ========== */
+.metrics-section {
+    padding: 0 0 1.5rem 0;
+}
+
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.metric-card {
+    background: white;
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    padding: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: transform 0.2s;
+}
+
+.metric-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.metric-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+}
+
+.metric-icon.blue {
+    background: rgba(37, 99, 235, 0.1);
+    color: var(--primary);
+}
+
+.metric-icon.green {
+    background: rgba(16, 185, 129, 0.1);
+    color: var(--success);
+}
+
+.metric-icon.yellow {
+    background: rgba(245, 158, 11, 0.1);
+    color: var(--warning);
+}
+
+.metric-icon.purple {
+    background: rgba(139, 92, 246, 0.1);
+    color: var(--purple);
+}
+
+.metric-content {
+    flex: 1;
+}
+
+.metric-value {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: var(--gray-900);
+    line-height: 1;
+    margin-bottom: 0.2rem;
+}
+
+.metric-label {
+    font-size: 0.8rem;
+    color: var(--gray-500);
+    font-weight: 500;
+}
+
+/* ========== TABELAS E GRÁFICOS ========== */
+.tables-section {
+    padding: 0 0 2rem 0;
+}
+
+.table-card {
+    background: white;
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    margin-bottom: 1.25rem;
+    overflow: hidden;
+}
+
+.table-header {
+    padding: 1.25rem 1.5rem;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+}
+
+.table-header h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+/* ========== CONTROLES DE VISUALIZAÇÃO ========== */
+.view-controls {
+    display: flex;
+    gap: 0.4rem;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 0.2rem;
+    border-radius: 6px;
+}
+
+.view-btn {
+    padding: 0.4rem 0.8rem;
+    border: none;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.8);
+    border-radius: 5px;
+    font-weight: 600;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.view-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+}
+
+.view-btn.active {
+    background: white;
+    color: var(--primary);
+}
+
+.btn-expand {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    width: 28px;
+    height: 28px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-expand:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.btn-expand i {
+    transition: transform 0.3s;
+    font-size: 0.9rem;
+}
+
+.btn-expand.rotated i {
+    transform: rotate(180deg);
+}
+
+/* ========== CONTEÚDO DE SEÇÕES ========== */
+.section-content {
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.section-content.collapsed {
+    display: none;
+}
+
+.section-content:not(.collapsed) {
+    display: block;
+    max-height: 350px;
+    overflow-y: auto;
+}
+
+/* ========== VISUALIZAÇÕES (TABELA/GRÁFICO) ========== */
+/* <<< INÍCIO DA CORREÇÃO >>> */
+/* Esta é a regra UNIFICADA. 
+   Ela agora contém 'display: none' E as regras de 'height: auto' */
+.table-view,
+.chart-view {
+    padding: 1.25rem;
+    background: white;
+    position: relative;
+    display: none; /* <-- ESSENCIAL: Esconde por padrão */
+
+    /* Propriedades da regra duplicada foram movidas para cá */
+    max-height: none !important;
+    min-height: 0 !important;
+    height: auto !important;
+}
+/* <<< FIM DA CORREÇÃO >>> */
+
+.table-view.active,
+.chart-view.active {
+    display: block; /* <-- ESSENCIAL: Mostra apenas o que está ativo */
+}
+
+/* A regra duplicada que estava aqui (linhas 331-335) foi REMOVIDA */
+
+/* ========== GRÁFICOS ========== */
+.chart-view canvas {
+    max-height: 300px;
+    width: 100%;
+}
+
+/* ========== TABELAS ========== */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.8rem;
+}
+
+.data-table thead {
+    background: var(--gray-50);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.data-table th {
+    padding: 0.8rem;
+    text-align: left;
+    font-weight: 700;
+    color: var(--gray-700);
+    border-bottom: 2px solid var(--gray-200);
+    white-space: nowrap;
+}
+
+.data-table td {
+    padding: 0.8rem;
+    border-bottom: 1px solid var(--gray-100);
+    color: var(--gray-700);
+}
+
+.data-table tbody tr {
+    transition: background 0.15s;
+}
+
+.data-table tbody tr:hover {
+    background: var(--gray-50);
+}
+
+/* Badges de Qualidade */
+.quality-badge {
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.7rem;
+}
+
+.quality-excellent {
+    background: rgba(16, 185, 129, 0.1);
+    color: var(--success);
+}
+
+.quality-good {
+    background: rgba(6, 182, 212, 0.1);
+    color: var(--secondary);
+}
+
+.quality-medium {
+    background: rgba(245, 158, 11, 0.1);
+    color: var(--warning);
+}
+
+.quality-low {
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--danger);
+}
+
+/* Badges de Sentimento */
+.sentiment-badge {
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.7rem;
+}
+
+.sentiment-positive {
+    background: rgba(16, 185, 129, 0.1);
+    color: var(--success);
+}
+
+.sentiment-negative {
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--danger);
+}
+
+.sentiment-neutral {
+    background: rgba(107, 114, 128, 0.1);
+    color: var(--gray-500);
+}
+
+/* Badges de Confiabilidade */
+.reliability-badge {
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.7rem;
+}
+
+.reliability-high {
+    background: rgba(139, 92, 246, 0.1);
+    color: var(--purple);
+}
+
+.reliability-medium {
+    background: rgba(37, 99, 235, 0.1);
+    color: var(--primary);
+}
+
+.reliability-low {
+    background: rgba(156, 163, 175, 0.1);
+    color: var(--gray-400);
+}
+
+/* Barra de Progresso */
+.progress-bar {
+    width: 100%;
+    height: 6px;
+    background: var(--gray-200);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary), var(--secondary));
+    border-radius: 3px;
+    transition: width 0.5s ease;
+}
+
+/* Loading State */
+.loading-state {
+    padding: 2rem;
+    text-align: center;
+    color: var(--gray-400);
+}
+
+.loading-state i {
+    font-size: 2rem;
+    margin-bottom: 0.8rem;
+    display: block;
+}
+
+/* Empty State */
+.empty-state {
+    padding: 2rem;
+    text-align: center;
+    color: var(--gray-400);
+}
+
+.empty-state i {
+    font-size: 2rem;
+    margin-bottom: 0.8rem;
+    display: block;
+}
+
+/* ========== FOOTER ========== */
+footer {
+    background: white;
+    border-top: 1px solid var(--gray-200);
+    padding: 1.5rem 0;
+    margin-top: 2rem;
+    text-align: center;
+    color: var(--gray-500);
+    font-size: 0.8rem;
+}
+
+footer p {
+    margin: 0.2rem 0;
+}
+
+/* ========== GRID DE ESTATÍSTICAS ========== */
+.stats-grid-inline {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 0.8rem;
+    margin-bottom: 1.5rem;
+}
+
+.stat-card-inline {
+    background: var(--gray-50);
+    padding: 1.25rem;
+    border-radius: 6px;
+    text-align: center;
+}
+
+.stat-card-inline .stat-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+.stat-card-inline .stat-label {
+    color: var(--gray-500);
+    margin-top: 0.4rem;
+    font-size: 0.8rem;
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 768px) {
+    .header-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+    
+    .header-actions {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .filters-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .metrics-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .table-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.8rem;
+    }
+    
+    .view-controls {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .section-content:not(.collapsed) {
+        max-height: 300px;
+    }
+    
+    .data-table {
+        font-size: 0.75rem;
+    }
+    
+    .data-table th,
+    .data-table td {
+        padding: 0.6rem 0.4rem;
+    }
+    
+    .chart-view,
+    .table-view {
+        padding: 1rem;
+    }
+    
+    .chart-view canvas {
+        max-height: 250px;
+    }
+}
+
+/* ========== ANIMAÇÕES ========== */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.fa-spin {
+    animation: spin 1s linear infinite;
+}
+
+/* Scrollbar personalizada */
+.section-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.section-content::-webkit-scrollbar-track {
+    background: var(--gray-100);
+    border-radius: 3px;
+}
+
+.section-content::-webkit-scrollbar-thumb {
+    background: var(--gray-300);
+    border-radius: 3px;
+}
+
+.section-content::-webkit-scrollbar-thumb:hover {
+    background: var(--gray-400);
+}

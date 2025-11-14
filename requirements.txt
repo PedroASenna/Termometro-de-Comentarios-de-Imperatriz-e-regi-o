@@ -1,0 +1,41 @@
+<<<<<<< HEAD
+# Backend Framework & Server
+fastapi
+uvicorn[standard]
+
+# Database
+sqlalchemy
+
+# Data Handling & APIs
+pandas
+requests
+beautifulsoup4
+openpyxl
+
+# Utilities
+python-dotenv
+
+aiofiles
+=======
+# Google API for YouTube
+google-api-python-client
+google-auth-oauthlib
+google-auth-httplib2
+
+# Web Scraping
+selenium
+beautifulsoup4
+webdriver-manager
+
+# Data Handling & Requests
+pandas
+requests
+geopandas
+
+# Dashboard Web Interativo
+streamlit
+plotly
+wordcloud
+matplotlib
+openpyxl
+>>>>>>> a3c307737efa62fc9e9c1e2ecaa53b0d6088037d

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Termômetro do Maranhão</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-thermometer-half"></i>
+                    <h1>Termômetro do Maranhão</h1>
+                </div>
+                <div class="header-actions">
+                    <a href="paginas/Fonte_de_dados.html" class="raw-data-button">
+                        <i class="fas fa-database"></i>
+                        Fonte de Dados
+                    </a>
+                </div>
+                <div class="filters">
+                    <!-- FILTRO DE TEMA CUSTOMIZADO -->
+                    <div class="filter-group">
+                        <label for="theme-display">Filtrar por Tema</label>
+                        <div style="position: relative;">
+                            <i class="fas fa-filter" style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: #6b7280; z-index: 1; pointer-events: none;"></i>
+                            <input 
+                                type="text" 
+                                id="theme-display" 
+                                readonly
+                                value="Todos os Temas"
+                                placeholder="Selecione um tema..." 
+                                style="padding-left: 2.75rem !important; padding-right: 2.75rem !important; cursor: pointer;"
+                            >
+                            <i class="fas fa-chevron-down" id="theme-chevron" style="position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); color: #6b7280; z-index: 1; pointer-events: none; transition: transform 0.3s;"></i>
+                            <select id="theme-select" style="display: none;">
+                                <option value="Todos">Todos os Temas</option>
+                                <option value="Segurança">Segurança</option>
+                                <option value="Infraestrutura">Infraestrutura</option>
+                                <option value="Comércio">Comércio</option>
+                                <option value="Saúde">Saúde</option>
+                                <option value="Educação">Educação</option>
+                                <option value="Transporte">Transporte</option>
+                            </select>
+                        </div>
+                        <div class="dropdown-suggestions" id="theme-dropdown"></div>
+                    </div>
+                    
+                    <!-- BUSCA DE CIDADES -->
+                    <div class="filter-group">
+                        <label for="search-box">Pesquisar</label>
+                        <div style="position: relative;">
+                            <i class="fas fa-search" style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: #6b7280; z-index: 1; pointer-events: none;"></i>
+                            <input 
+                                type="text" 
+                                id="search-box" 
+                                placeholder="Ex: São Luís, Imperatriz..." 
+                                autocomplete="off"
+                                style="padding-left: 2.75rem !important;"
+                            >
+                            <button class="search-clear" id="search-clear">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <div class="dropdown-suggestions" id="city-dropdown"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="main-content">
+                <div class="map-container">
+                    <div id="map"></div>
+                </div>
+                
+                <div class="details-container" id="details">
+                    <div class="details-header">
+                        <h2 id="details-title">Visão Geral do Maranhão</h2>
+                        <p>Medindo a satisfação da população</p>
+                    </div>
+                    
+                    <div class="thermometer-container">
+                        <div class="thermometer">
+                            <div class="thermometer-bg">
+                                <div class="thermometer-fill" id="thermometer-fill"></div>
+                            </div>
+                            <div class="thermometer-bulb"></div>
+                            <div class="temperature-value" id="temperature-value">0%</div>
+                            <div class="temperature-scale">
+                                <div class="scale-mark">100%</div>
+                                <div class="scale-mark">80%</div>
+                                <div class="scale-mark">60%</div>
+                                <div class="scale-mark">40%</div>
+                                <div class="scale-mark">20%</div>
+                                <div class="scale-mark">0%</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-number" id="total-mentions">0</div>
+                            <div class="stat-label">Total de Menções</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="positive-mentions">0</div>
+                            <div class="stat-label">Positivas</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="negative-mentions">0</div>
+                            <div class="stat-label">Negativas</div>
+                        </div>
+                    </div>
+
+                    <div class="mentions-container">
+                        <div id="mentions">
+                            <div class="loading pulse">
+                                <i class="fas fa-spinner fa-spin"></i> Carregando menções...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-cards">
+                <div class="info-card">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>Análise em Tempo Real</h3>
+                    <p>Monitoramento contínuo das menções e sentimentos da população maranhense através de múltiplas fontes de dados.</p>
+                </div>
+                <div class="info-card">
+                    <i class="fas fa-map-marked-alt"></i>
+                    <h3>Cobertura Estadual</h3>
+                    <p>Dados coletados de todas as regiões do Maranhão, proporcionando uma visão completa do estado.</p>
+                </div>
+                <div class="info-card">
+                    <i class="fas fa-users"></i>
+                    <h3>Participação Cidadã</h3>
+                    <p>Plataforma que valoriza a voz do povo maranhense e promove a transparência governamental.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="js/app.js"></script>    
+</body>
+</html>

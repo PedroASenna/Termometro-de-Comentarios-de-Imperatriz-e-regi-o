@@ -1,0 +1,174 @@
+# ========================================
+# TERMÔMETRO DO MARANHÃO - .gitignore
+# ========================================
+
+# ==================== PYTHON ====================
+# Bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+
+# Virtual Environment
+venv/
+env/
+ENV/
+.venv
+
+# ==================== BANCOS DE DADOS ====================
+# ❌ NUNCA ENVIE BANCOS DE DADOS COM DADOS REAIS!
+*.db
+*.sqlite
+*.sqlite3
+termometro_ma.db
+termometro.db
+database.db
+
+# ==================== LOGS ====================
+# ❌ Logs podem conter informações sensíveis
+*.log
+collection.log
+collector.log
+massive_collection.log
+
+# ==================== CONFIGURAÇÕES ====================
+# ❌ CUIDADO: Pode conter chaves de API, senhas, tokens
+config.json
+config.ini
+.env
+.env.local
+.env.production
+
+# Arquivos de scrapers (podem ter credenciais)
+scrapers_config.json
+news_data.jsonl
+gov_data.jsonl
+
+# ==================== IDE / EDITOR ====================
+# VSCode
+.vscode/
+*.code-workspace
+
+# PyCharm
+.idea/
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+*.ipynb
+
+# ==================== SISTEMA OPERACIONAL ====================
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+.directory
+
+# ==================== ARQUIVOS TEMPORÁRIOS ====================
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+.cache/
+
+# ==================== BACKUP ====================
+*.bak
+*.backup
+main.py.bak
+
+# ==================== DADOS COLETADOS ====================
+# ❌ Dados brutos podem ser muito grandes
+data/
+raw_data/
+collected_data/
+*.csv
+*.xlsx
+*.json
+*.jsonl
+
+# EXCEÇÃO: Manter apenas GeoJSON essencial
+!ma_cities.geojson
+
+# ==================== NOTEBOOKS ====================
+notebooks/
+*.ipynb
+
+# ==================== TESTES ====================
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# ==================== DEPLOY ====================
+# Não enviar builds
+build/
+dist/
+*.egg-info/
+
+# ==================== CREDENCIAIS ====================
+# ❌ NUNCA ENVIE CREDENCIAIS!
+credentials.json
+secrets.json
+api_keys.json
+tokens.json
+
+# ==================== ARQUIVOS GRANDES ====================
+# Imagens grandes
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.bmp
+
+# EXCEÇÃO: Manter logo do projeto
+!Termometro_image.png
+
+# Vídeos
+*.mp4
+*.avi
+*.mov
+
+# ==================== DOCUMENTAÇÃO ====================
+# Manter documentação
+!README.md
+!LEIA-ME.txt
+!*.md
+
+# ==================== FRONTEND BUILD ====================
+# Node modules (se tiver)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build do frontend
+frontend/build/
+frontend/dist/
+
+# ==================== OBSERVAÇÕES ====================
+# ✅ O QUE DEVE IR:
+# - Código fonte (.py, .js, .html, .css)
+# - README.md
+# - requirements.txt
+# - Estrutura de pastas
+# - GeoJSON
+# - Imagens essenciais (logo)
+# - Documentação
+
+# ❌ O QUE NÃO DEVE IR:
+# - Bancos de dados
+# - Logs
+# - Configurações com credenciais
+# - Virtual environment
+# - Cache
+# - Dados coletados
+# - Arquivos temporários

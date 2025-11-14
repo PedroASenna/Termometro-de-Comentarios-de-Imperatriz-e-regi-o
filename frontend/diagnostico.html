@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagnóstico GeoJSON</title>
+    <style>
+        body {
+            font-family: 'Courier New', monospace;
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #1e1e1e;
+            color: #d4d4d4;
+        }
+        .section {
+            background: #252526;
+            border: 1px solid #3e3e42;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        h2 {
+            color: #4ec9b0;
+            margin-top: 0;
+        }
+        .info {
+            color: #569cd6;
+            margin: 10px 0;
+        }
+        .warning {
+            color: #ce9178;
+            margin: 10px 0;
+        }
+        .error {
+            color: #f48771;
+            margin: 10px 0;
+        }
+        .success {
+            color: #4ec9b0;
+            margin: 10px 0;
+        }
+        pre {
+            background: #1e1e1e;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+            border-left: 3px solid #007acc;
+        }
+        button {
+            background: #007acc;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 5px 10px 0;
+        }
+        button:hover {
+            background: #005a9e;
+        }
+        .bounds-box {
+            background: #264f78;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .city-list {
+            max-height: 300px;
+            overflow-y: auto;
+            background: #1e1e1e;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        .geometry-type {
+            display: inline-block;
+            background: #4e4e4e;
+            padding: 5px 10px;
+            border-radius: 4px;
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔍 Diagnóstico do GeoJSON - ma_cities.geojson</h1>
+
+    <div class="section">
+        <h2>📂 Carregar Arquivo</h2>
+        <button onclick="analyzeGeoJSON()">🚀 Analisar GeoJSON</button>
+        <button onclick="copyToClipboard()">📋 Copiar Relatório</button>
+        <div id="status"></div>
+    </div>
+
+    <div class="section" id="basic-info" style="display:none;">
+        <h2>📊 Informações Básicas</h2>
+        <div id="basic-content"></div>
+    </div>
+
+    <div class="section" id="bounds-info" style="display:none;">
+        <h2>📐 Limites Geográficos (Bounds)</h2>
+        <div id="bounds-content"></div>
+    </div>
+
+    <div class="section" id="geometry-info" style="display:none;">
+        <h2>🗺️ Tipos de Geometria</h2>
+        <div id="geometry-content"></div>
+    </div>
+
+    <div class="section" id="cities-info" style="display:none;">
+        <h2>🏙️ Lista de Cidades</h2>
+        <div id="cities-content"></div>
+    </div>
+
+    <div class="section" id="problems-info" style="display:none;">
+        <h2>⚠️ Problemas Detectados</h2>
+        <div id="problems-content"></div>
+    </div>
+
+    <script>
+        let reportText = '';
+
+        async function analyzeGeoJSON() {
+            const statusDiv = document.getElementById('status');
+            statusDiv.innerHTML = '<div class="info">⏳ Carregando arquivo...</div>';
+
+            try {
+                const response = await fetch('./ma_cities.geojson');
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+
+                const data = await response.json();
+                
+                // Análise básica
+                analyzeBasicInfo(data);
+                
+                // Análise de bounds
+                analyzeBounds(data);
+                
+                // Análise de geometrias
+                analyzeGeometry(data);
+                
+                // Lista de cidades
+                listCities(data);
+                
+                // Detecta problemas
+                detectProblems(data);
+                
+                statusDiv.innerHTML = '<div class="success">✅ Análise concluída!</div>';
+
+            } catch (error) {
+                statusDiv.innerHTML = `<div class="error">❌ ERRO: ${error.message}</div>`;
+                console.error(error);
+            }
+        }
+
+        function analyzeBasicInfo(data) {
+            const div = document.getElementById('basic-info');
+            const content = document.getElementById('basic-content');
+            
+            const features = data.features || [];
+            const validFeatures = features.filter(f => f.properties && f.properties.name);
+            
+            let html = `
+                <div class="info">📦 Tipo: ${data.type}</div>
+                <div class="info">🏘️ Total de features: ${features.length}</div>
+                <div class="info">✅ Features com nome: ${validFeatures.length}</div>
+            `;
+            
+            if (data.crs) {
+                html += `<div class="info">🌐 CRS: ${JSON.stringify(data.crs)}</div>`;
+            }
+            
+            content.innerHTML = html;
+            div.style.display = 'block';
+            
+            reportText += `INFORMAÇÕES BÁSICAS\n`;
+            reportText += `Tipo: ${data.type}\n`;
+            reportText += `Total de features: ${features.length}\n`;
+            reportText += `Features com nome: ${validFeatures.length}\n\n`;
+        }
+
+        function analyzeBounds(data) {
+            const div = document.getElementById('bounds-info');
+            const content = document.getElementById('bounds-content');
+            
+            let minLat = Infinity, maxLat = -Infinity;
+            let minLng = Infinity, maxLng = -Infinity;
+            
+            data.features.forEach(feature => {
+                if (feature.geometry) {
+                    const coords = getAllCoordinates(feature.geometry);
+                    coords.forEach(([lng, lat]) => {
+                        minLat = Math.min(minLat, lat);
+                        maxLat = Math.max(maxLat, lat);
+                        minLng = Math.min(minLng, lng);
+                        maxLng = Math.max(maxLng, lng);
+                    });
+                }
+            });
+            
+            const centerLat = (minLat + maxLat) / 2;
+            const centerLng = (minLng + maxLng) / 2;
+            
+            const html = `
+                <div class="bounds-box">
+                    <div class="info">🧭 Norte: ${maxLat.toFixed(4)}°</div>
+                    <div class="info">🧭 Sul: ${minLat.toFixed(4)}°</div>
+                    <div class="info">🧭 Leste: ${maxLng.toFixed(4)}°</div>
+                    <div class="info">🧭 Oeste: ${minLng.toFixed(4)}°</div>
+                    <div class="success" style="margin-top: 15px;">
+                        📍 Centro calculado: [${centerLat.toFixed(4)}, ${centerLng.toFixed(4)}]
+                    </div>
+                </div>
+                <pre>// Use estas coordenadas no seu código:
+map.setView([${centerLat.toFixed(2)}, ${centerLng.toFixed(2)}], 7);</pre>
+            `;
+            
+            content.innerHTML = html;
+            div.style.display = 'block';
+            
+            reportText += `LIMITES GEOGRÁFICOS\n`;
+            reportText += `Norte: ${maxLat.toFixed(4)}°\n`;
+            reportText += `Sul: ${minLat.toFixed(4)}°\n`;
+            reportText += `Leste: ${maxLng.toFixed(4)}°\n`;
+            reportText += `Oeste: ${minLng.toFixed(4)}°\n`;
+            reportText += `Centro: [${centerLat.toFixed(4)}, ${centerLng.toFixed(4)}]\n\n`;
+        }
+
+        function analyzeGeometry(data) {
+            const div = document.getElementById('geometry-info');
+            const content = document.getElementById('geometry-content');
+            
+            const types = {};
+            data.features.forEach(f => {
+                const type = f.geometry?.type || 'Sem geometria';
+                types[type] = (types[type] || 0) + 1;
+            });
+            
+            let html = '';
+            Object.entries(types).forEach(([type, count]) => {
+                html += `<span class="geometry-type">${type}: ${count}</span>`;
+            });
+            
+            content.innerHTML = html;
+            div.style.display = 'block';
+            
+            reportText += `TIPOS DE GEOMETRIA\n`;
+            Object.entries(types).forEach(([type, count]) => {
+                reportText += `${type}: ${count}\n`;
+            });
+            reportText += `\n`;
+        }
+
+        function listCities(data) {
+            const div = document.getElementById('cities-info');
+            const content = document.getElementById('cities-content');
+            
+            const cities = data.features
+                .map(f => f.properties?.name)
+                .filter(Boolean)
+                .sort();
+            
+            const html = `
+                <div class="info">Total: ${cities.length} cidades</div>
+                <div class="city-list">
+                    ${cities.map((c, i) => `<div>${i + 1}. ${c}</div>`).join('')}
+                </div>
+            `;
+            
+            content.innerHTML = html;
+            div.style.display = 'block';
+            
+            reportText += `LISTA DE CIDADES (${cities.length})\n`;
+            cities.forEach((c, i) => {
+                reportText += `${i + 1}. ${c}\n`;
+            });
+            reportText += `\n`;
+        }
+
+        function detectProblems(data) {
+            const div = document.getElementById('problems-info');
+            const content = document.getElementById('problems-content');
+            
+            const problems = [];
+            
+            // Verifica features sem nome
+            const noName = data.features.filter(f => !f.properties?.name).length;
+            if (noName > 0) {
+                problems.push(`⚠️ ${noName} features sem nome`);
+            }
+            
+            // Verifica features sem geometria
+            const noGeom = data.features.filter(f => !f.geometry).length;
+            if (noGeom > 0) {
+                problems.push(`⚠️ ${noGeom} features sem geometria`);
+            }
+            
+            // Verifica coordenadas inválidas
+            data.features.forEach((f, i) => {
+                if (f.geometry) {
+                    const coords = getAllCoordinates(f.geometry);
+                    coords.forEach(([lng, lat]) => {
+                        if (Math.abs(lat) > 90 || Math.abs(lng) > 180) {
+                            problems.push(`❌ Feature ${i} (${f.properties?.name || 'sem nome'}) tem coordenadas inválidas`);
+                        }
+                    });
+                }
+            });
+            
+            if (problems.length === 0) {
+                content.innerHTML = '<div class="success">✅ Nenhum problema detectado!</div>';
+            } else {
+                content.innerHTML = problems.map(p => `<div class="warning">${p}</div>`).join('');
+            }
+            
+            div.style.display = 'block';
+            
+            reportText += `PROBLEMAS DETECTADOS\n`;
+            if (problems.length === 0) {
+                reportText += `Nenhum problema encontrado.\n`;
+            } else {
+                problems.forEach(p => {
+                    reportText += `${p}\n`;
+                });
+            }
+        }
+
+        function getAllCoordinates(geometry) {
+            const coords = [];
+            
+            if (geometry.type === 'Point') {
+                coords.push(geometry.coordinates);
+            } else if (geometry.type === 'MultiPoint' || geometry.type === 'LineString') {
+                coords.push(...geometry.coordinates);
+            } else if (geometry.type === 'Polygon' || geometry.type === 'MultiLineString') {
+                geometry.coordinates.forEach(ring => {
+                    coords.push(...ring);
+                });
+            } else if (geometry.type === 'MultiPolygon') {
+                geometry.coordinates.forEach(polygon => {
+                    polygon.forEach(ring => {
+                        coords.push(...ring);
+                    });
+                });
+            }
+            
+            return coords;
+        }
+
+        function copyToClipboard() {
+            if (!reportText) {
+                alert('Execute a análise primeiro!');
+                return;
+            }
+            
+            navigator.clipboard.writeText(reportText).then(() => {
+                alert('✅ Relatório copiado para a área de transferência!');
+            }).catch(err => {
+                console.error('Erro ao copiar:', err);
+                alert('❌ Erro ao copiar. Veja o console.');
+            });
+        }
+    </script>
+</body>
+</html>
