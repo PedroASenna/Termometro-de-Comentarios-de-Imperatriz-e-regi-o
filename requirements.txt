@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 # Backend Framework & Server
 fastapi
 uvicorn[standard]
@@ -16,7 +16,7 @@ openpyxl
 python-dotenv
 
 aiofiles
-=======
+
 # Google API for YouTube
 google-api-python-client
 google-auth-oauthlib
@@ -38,4 +38,4 @@ plotly
 wordcloud
 matplotlib
 openpyxl
->>>>>>> a3c307737efa62fc9e9c1e2ecaa53b0d6088037d
+
