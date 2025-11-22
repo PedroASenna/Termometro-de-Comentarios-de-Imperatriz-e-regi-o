@@ -179,16 +179,59 @@ Este projeto foi desenvolvido como trabalho de conclusão de curso, demonstrando
 - Python 3.8 ou superior
 - pip (gerenciador de pacotes Python)
 - Git
+- Sistema Linux/Ubuntu (para ambiente virtual)
 
-### Clone o Repositório
+### Passo 1: Clone o Repositório
 ```bash
 git clone https://github.com/PedroASenna/Termometro-de-Comentarios-de-Imperatriz-e-regi-o.git
 cd Termometro-de-Comentarios-de-Imperatriz-e-regi-o
 ```
 
-### Instale as Dependências
+### Passo 2: Instalar Ferramentas de Ambiente Virtual (Linux/Ubuntu)
+
+Primeiro, garanta que seu sistema tem as ferramentas necessárias para criar ambientes virtuais:
+
+```bash
+sudo apt update
+sudo apt install python3-venv python3-full -y
+```
+
+### Passo 3: Criar o Ambiente Virtual
+
+Crie um ambiente virtual isolado chamado `.venv` na pasta do projeto:
+
+```bash
+python3 -m venv .venv
+```
+
+> 💡 **O que é um ambiente virtual?** É um espaço isolado onde as dependências do projeto ficam separadas do sistema operacional, evitando conflitos entre projetos.
+
+### Passo 4: Ativar o Ambiente Virtual
+
+Ative o ambiente virtual. Quando ativado, você verá `(.venv)` antes do seu prompt no terminal:
+
+```bash
+source .venv/bin/activate
+```
+
+> ⚠️ **Importante:** Sempre ative o ambiente virtual antes de trabalhar no projeto!
+
+### Passo 5: Instalar as Dependências
+
+Com o ambiente virtual ativo, instale todas as dependências do projeto:
+
 ```bash
 pip install -r requirements.txt
+```
+
+> ✅ **Pronto!** As bibliotecas foram instaladas apenas dentro do ambiente virtual, sem afetar seu sistema.
+
+### Desativar o Ambiente Virtual (Quando Terminar)
+
+Para sair do ambiente virtual:
+
+```bash
+deactivate
 ```
 
 ### Estrutura de Dependências (requirements.txt)
