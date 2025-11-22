@@ -625,8 +625,8 @@ SOFTWARE.
 
 **Pedro Senna**
 - GitHub: [@PedroASenna](https://github.com/PedroASenna)
-- LinkedIn: [Seu LinkedIn]
-- Email: [seu@email.com]
+- LinkedIn: [Pedro Azevedo Sena](https://www.linkedin.com/in/pedro-azevedo-sena-7aa711302/)
+- Email: [pedrologingt232@gmail.com]
 
 ---
 
@@ -635,15 +635,6 @@ SOFTWARE.
 - **Fontes de Dados**: DATASUS, IBGE, FBSP, INEP, Portal da Transparência
 - **Bibliotecas Open Source**: FastAPI, SQLAlchemy, BeautifulSoup, Leaflet, Chart.js
 - **Comunidade Python**: Pela excelente documentação e suporte
-
----
-
-## 📞 Suporte
-
-Encontrou um bug ou tem uma sugestão? 
-
-- **Issues**: [GitHub Issues](https://github.com/PedroASenna/Termometro-de-Comentarios-de-Imperatriz-e-regi-o/issues)
-- **Discussões**: [GitHub Discussions](https://github.com/PedroASenna/Termometro-de-Comentarios-de-Imperatriz-e-regi-o/discussions)
 
 ---
 
