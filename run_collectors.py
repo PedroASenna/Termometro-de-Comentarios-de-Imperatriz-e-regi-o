@@ -1,6 +1,16 @@
 """
-TERMÔMETRO DO MARANHÃO - COLETA ULTRA-RÁPIDA
-Otimizado para processar 1M+ dados em minutos
+TERMÔMETRO DO MARANHÃO - BIG DATA COLLECTION ENGINE
+Otimizado para processar 3M+ dados (escala Big Data)
+
+Volume esperado por fonte:
+- Reclame Aqui: ~1.5M registros
+- Google Maps: ~500K registros
+- Procon/MP-MA: ~300K registros
+- DataSUS: ~200K registros
+- INEP: ~150K registros
+- Transparência: ~200K registros
+- Outros: ~150K registros
+TOTAL: ~3.000.000+ registros
 """
 
 import logging
@@ -104,9 +114,9 @@ def save_records_ULTRA_FAST(db, records, source_name, analyzer):
         logger.info(f"   ⚠️ Nenhum registro único para salvar.")
         return 0
     
-    # OTIMIZAÇÃO: Inserção em LOTE (bulk insert)
+    # BIG DATA: Inserção em LOTE otimizada para milhões de registros
     saved = 0
-    batch_size = 5000  # Insere 5000 por vez
+    batch_size = 10000  # BIG DATA: 10K por vez para máxima performance
     
     logger.info(f"   💾 Inserindo {len(processed_records):,} registros únicos em lotes...")
     
@@ -138,11 +148,13 @@ def save_records_ULTRA_FAST(db, records, source_name, analyzer):
 
 
 def run_massive_collection():
-    """Executa coleta ULTRA-RÁPIDA"""
-    
+    """Executa coleta BIG DATA - 3M+ registros"""
+
     logger.info("=" * 80)
-    logger.info("🚀 TERMÔMETRO DO MARANHÃO - COLETA ULTRA-RÁPIDA (1M+ DADOS)")
+    logger.info("🚀 TERMÔMETRO DO MARANHÃO - BIG DATA COLLECTION (3M+ DADOS)")
     logger.info("=" * 80)
+    logger.info("📊 Volume esperado: ~3.000.000 registros")
+    logger.info("⏱️ Tempo estimado: 15-30 minutos")
     
     start_time = datetime.now()
     
@@ -170,7 +182,7 @@ def run_massive_collection():
     try:
         # ========== 1. RECLAME AQUI (MAIOR VOLUME) ==========
         logger.info("\n" + "="*80)
-        logger.info("📢 [1/9] RECLAME AQUI - 650K+ Reclamações")
+        logger.info("📢 [1/8] RECLAME AQUI - 1.5M+ Reclamações (BIG DATA)")
         logger.info("="*80)
         try:
             reclame_aqui_collector = ReclameAquiAdvancedCollector()
@@ -181,7 +193,7 @@ def run_massive_collection():
         
         # ========== 2. PROCON/MP-MA ==========
         logger.info("\n" + "="*80)
-        logger.info("⚖️ [2/9] PROCON/MP-MA - 150K Reclamações")
+        logger.info("⚖️ [2/8] PROCON/MP-MA - 300K+ Reclamações (BIG DATA)")
         logger.info("="*80)
         try:
             procon_collector = ProconMPMACollector()
@@ -192,7 +204,7 @@ def run_massive_collection():
         
         # ========== 3. GOOGLE MAPS ==========
         logger.info("\n" + "="*80)
-        logger.info("🗺️ [3/9] GOOGLE MAPS - 110K+ Avaliações")
+        logger.info("🗺️ [3/8] GOOGLE MAPS - 500K+ Avaliações (BIG DATA)")
         logger.info("="*80)
         try:
             gmaps_collector = GoogleMapsCollector()
@@ -203,7 +215,7 @@ def run_massive_collection():
         
         # ========== 4. DATASUS ==========
         logger.info("\n" + "="*80)
-        logger.info("🏥 [4/9] DATASUS - Saúde Pública")
+        logger.info("🏥 [4/8] DATASUS - 200K+ Indicadores de Saúde (BIG DATA)")
         logger.info("="*80)
         try:
             datasus_collector = DataSUSCollector()
@@ -214,7 +226,7 @@ def run_massive_collection():
         
         # ========== 5. INEP ==========
         logger.info("\n" + "="*80)
-        logger.info("📚 [5/9] INEP - Educação")
+        logger.info("📚 [5/8] INEP - 150K+ Indicadores de Educação (BIG DATA)")
         logger.info("="*80)
         try:
             inep_collector = INEPCollector()
@@ -225,7 +237,7 @@ def run_massive_collection():
         
         # ========== 6. PORTAL TRANSPARÊNCIA ==========
         logger.info("\n" + "="*80)
-        logger.info("💰 [6/9] PORTAL DA TRANSPARÊNCIA")
+        logger.info("💰 [6/8] PORTAL DA TRANSPARÊNCIA - 200K+ Gastos Públicos (BIG DATA)")
         logger.info("="*80)
         try:
             transparency_collector = TransparencyCollector()
@@ -234,9 +246,9 @@ def run_massive_collection():
         except Exception as e:
             logger.error(f"❌ Erro Transparência: {e}")
         
-        # ========== 8. SEGURANÇA ==========
+        # ========== 7. SEGURANÇA ==========
         logger.info("\n" + "="*80)
-        logger.info("🚔 [7/9] FBSP - Segurança")
+        logger.info("🚔 [7/8] FBSP - Dados de Segurança Pública")
         logger.info("="*80)
         try:
             security_collector = StructuredDataCollector()
@@ -245,9 +257,9 @@ def run_massive_collection():
         except Exception as e:
             logger.error(f"❌ Erro Segurança: {e}")
         
-        # ========== 9. OPINIÃO PÚBLICA ==========
+        # ========== 8. OPINIÃO PÚBLICA ==========
         logger.info("\n" + "="*80)
-        logger.info("💬 [8/9] OPINIÃO PÚBLICA")
+        logger.info("💬 [8/8] OPINIÃO PÚBLICA - Notícias e Comentários")
         logger.info("="*80)
         try:
             # Tenta carregar config.json, se não achar, usa o scrapers_config.json
@@ -272,9 +284,9 @@ def run_massive_collection():
         # ========== RESUMO FINAL ==========
         end_time = datetime.now()
         duration = (end_time - start_time).total_seconds()
-        
+
         logger.info("\n" + "="*80)
-        logger.info("🎉 COLETA ULTRA-RÁPIDA FINALIZADA!")
+        logger.info("🎉 BIG DATA COLLECTION FINALIZADA!")
         logger.info("="*80)
         logger.info(f"✅ Total de registros salvos: {total_saved:,}")
         logger.info(f"⏱️ Tempo total: {duration:.2f}s ({duration/60:.2f} minutos)")
