@@ -352,10 +352,17 @@ class GoogleMapsCollector:
             'Marajá do Sena', 'Amapá do Maranhão', 'Zé Doca', 'Governador Eugênio Barros',
             'São Raimundo das Mangabeiras', 'Raposa', 'Apicum-Açu', 'Axixá',
             'Cachoeira Grande', 'Fortuna', 'Joselândia', 'Maranhãozinho',
-            'Pinheiro', 'Santa Quitéria do Maranhão', 'Satubinha', 'Sucupira do Norte',
-            'Água Doce do Maranhão', 'Alto Alegre do Maranhão', 'Amapá do Maranhão',
-            'Amarante do Maranhão', 'Araguanã', 'Arame', 'Aurora do Maranhão',
-            'Barra do Corda', 'Boa Vista do Gurupi', 'Brejo de Areia', 'Cajapió'
+            'Santa Quitéria do Maranhão', 'Araguanã', 'Arame', 'Aurora do Maranhão',
+            'Brejo de Areia', 'Cajapió',
+            # Cidades adicionadas para completar cobertura
+            'Porto Rico do Maranhão', 'Cedral', 'Presidente Médici',
+            'Santa Luzia do Paruá', 'Nova Olinda do Maranhão', 'São João do Carú',
+            'Alto Alegre do Pindaré', 'Pindaré-Mirim', 'Monção', 'Tufilândia',
+            'Bela Vista do Maranhão', 'Pio XII', 'Lago Verde', 'Matões do Norte',
+            'Pirapemas', 'Milagres do Maranhão', 'Santo Antônio dos Lopes',
+            'São José dos Basílios', 'São Roberto', 'São Raimundo do Doca Bezerra',
+            'Itaipava do Grajaú', 'Jenipapo dos Vieiras', 'São Francisco do Brejão',
+            'Buriti Bravo', 'São Domingos do Azeitão'
         ]
     
     def collect_all_reviews(self, cities=None):

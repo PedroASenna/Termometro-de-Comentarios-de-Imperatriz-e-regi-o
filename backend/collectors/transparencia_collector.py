@@ -277,7 +277,16 @@ class TransparencyCollector:
             'Pedro do Rosário', 'Presidente Sarney', 'Turiaçu', 'Turilândia',
             'Cândido Mendes', 'Godofredo Viana', 'Luís Domingues', 'Maracaçumé',
             'Governador Newton Bello', 'Santa Helena', 'Boa Vista do Gurupi',
-            'Marajá do Sena', 'Amapá do Maranhão', 'Zé Doca'
+            'Marajá do Sena', 'Amapá do Maranhão', 'Zé Doca',
+            # Cidades adicionadas para completar cobertura
+            'Porto Rico do Maranhão', 'Cedral', 'Presidente Médici',
+            'Santa Luzia do Paruá', 'Nova Olinda do Maranhão', 'São João do Carú',
+            'Alto Alegre do Pindaré', 'Pindaré-Mirim', 'Monção', 'Tufilândia',
+            'Bela Vista do Maranhão', 'Pio XII', 'Lago Verde', 'Matões do Norte',
+            'Pirapemas', 'Milagres do Maranhão', 'Santo Antônio dos Lopes',
+            'São José dos Basílios', 'São Roberto', 'São Raimundo do Doca Bezerra',
+            'Itaipava do Grajaú', 'Jenipapo dos Vieiras', 'São Francisco do Brejão',
+            'Buriti Bravo', 'São Domingos do Azeitão'
         ]
 
     def collect_all_data(self):
