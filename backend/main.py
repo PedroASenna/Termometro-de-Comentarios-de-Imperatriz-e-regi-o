@@ -199,12 +199,12 @@ def read_data(db: Session = Depends(get_db),
     Otimizado para o index.html (mapa).
     """
     # Usa a função de crud atualizada com filtros
-    # O limite de 100 é para a carga inicial/filtrada (super rápido)
-    limit = 100
-    
-    return crud.get_mentions(db, limit=limit, 
-                             theme=theme, 
-                             location=location, 
+    # O limite de 200 é para a carga inicial/filtrada (super rápido)
+    limit = 200
+
+    return crud.get_mentions(db, limit=limit,
+                             theme=theme,
+                             location=location,
                              search_text=search_text)
 
 @app.get("/api/data/{city_name}")

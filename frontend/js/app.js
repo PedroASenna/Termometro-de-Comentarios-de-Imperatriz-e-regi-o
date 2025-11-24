@@ -332,7 +332,7 @@ document.addEventListener("DOMContentLoaded", async function() {
         const search = document.getElementById('search-box')?.value || '';
         
         let title = "Visão Geral do Maranhão";
-        const params = { limit: 100 };
+        const params = { limit: 200 };
 
         if (theme !== "Todos") {
             params.theme = theme;
