@@ -22,6 +22,9 @@
 - [Tecnologias](#-tecnologias)
 - [Arquitetura](#-arquitetura)
 - [Instalação](#-instalação)
+  - [Windows](#instalação-no-windows)
+  - [Linux/Ubuntu](#instalação-no-linuxubuntu)
+  - [macOS](#instalação-no-macos)
 - [Configuração](#-configuração)
 - [Uso](#-uso)
 - [Fontes de Dados](#-fontes-de-dados)
@@ -175,201 +178,420 @@ Este projeto foi desenvolvido como trabalho de conclusão de curso, demonstrando
 
 ## 📦 Instalação
 
-### Pré-requisitos
-- Python 3.8 ou superior
-- pip (gerenciador de pacotes Python)
-- Git
-- Sistema Linux/Ubuntu (para ambiente virtual)
+### Instalação no Windows
 
-### Passo 1: Clone o Repositório
+#### Passo 1: Instalar o Python
+
+##### Opção A: Instalador Oficial (Recomendado)
+
+1. **Baixar o Python**:
+   - Acesse [python.org/downloads](https://www.python.org/downloads/)
+   - Clique em "Download Python 3.x.x" (versão 3.8 ou superior)
+
+2. **Executar o Instalador**:
+   - Execute o arquivo `.exe` baixado
+   - ⚠️ **IMPORTANTE**: Marque a opção "Add Python to PATH" antes de clicar em "Install Now"
+   - Aguarde a instalação completar
+
+3. **Verificar a Instalação**:
+   ```cmd
+   python --version
+   ```
+   Você deve ver algo como: `Python 3.11.x`
+
+##### Opção B: Microsoft Store (Alternativa)
+
+1. Abra a Microsoft Store
+2. Pesquise por "Python 3.11" (ou versão mais recente)
+3. Clique em "Obter" ou "Instalar"
+4. Aguarde a instalação completar
+
+#### Passo 2: Verificar o pip
+
+O pip geralmente vem instalado automaticamente com o Python. Para verificar:
+
+```cmd
+pip --version
+```
+
+**Se o pip não estiver instalado:**
+
+1. **Baixar o get-pip.py**:
+   - Acesse [bootstrap.pypa.io/get-pip.py](https://bootstrap.pypa.io/get-pip.py)
+   - Salve o arquivo (Ctrl+S) como `get-pip.py`
+
+2. **Instalar o pip**:
+   ```cmd
+   python get-pip.py
+   ```
+
+3. **Verificar novamente**:
+   ```cmd
+   pip --version
+   ```
+
+#### Passo 3: Instalar o Git (se não tiver)
+
+1. **Baixar o Git**:
+   - Acesse [git-scm.com/download/win](https://git-scm.com/download/win)
+   - Baixe o instalador para Windows
+
+2. **Instalar**:
+   - Execute o instalador
+   - Use as configurações padrão (clique em "Next" até finalizar)
+
+3. **Verificar**:
+   ```cmd
+   git --version
+   ```
+
+#### Passo 4: Clonar o Repositório
+
+Abra o **Prompt de Comando (CMD)** ou **PowerShell** e execute:
+
+```cmd
+git clone https://github.com/PedroASenna/Termometro-de-Comentarios-de-Imperatriz-e-regi-o.git
+cd Termometro-de-Comentarios-de-Imperatriz-e-regi-o
+```
+
+#### Passo 5: Criar Ambiente Virtual
+
+```cmd
+python -m venv .venv
+```
+
+> 💡 **O que é um ambiente virtual?** É um espaço isolado onde as dependências do projeto ficam separadas do sistema operacional, evitando conflitos entre projetos.
+
+#### Passo 6: Ativar o Ambiente Virtual
+
+**No CMD (Prompt de Comando):**
+```cmd
+.venv\Scripts\activate
+```
+
+**No PowerShell:**
+```powershell
+.venv\Scripts\Activate.ps1
+```
+
+**Se houver erro de execução no PowerShell:**
+```powershell
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+.venv\Scripts\Activate.ps1
+```
+
+> ✅ Quando ativado, você verá `(.venv)` antes do caminho no terminal
+
+#### Passo 7: Instalar as Dependências
+
+```cmd
+pip install -r requirements.txt
+```
+
+#### Passo 8: Configurar o Projeto
+
+Copie o arquivo de exemplo e edite com suas configurações:
+
+```cmd
+copy config.example.json config.json
+```
+
+Edite o `config.json` e `.env` conforme necessário (veja seção [Configuração](#-configuração))
+
+#### Passo 9: Executar o Projeto
+
+**Backend (API):**
+```cmd
+cd backend
+uvicorn main:app --reload --host 0.0.0.0 --port 8000
+```
+
+**Frontend:**
+- Abra o arquivo `frontend/index.html` no navegador
+- Ou use um servidor local como Live Server (extensão do VSCode)
+
+#### Desativar o Ambiente Virtual
+
+Quando terminar de trabalhar:
+
+```cmd
+deactivate
+```
+
+---
+
+### Instalação no Linux/Ubuntu
+
+#### Passo 1: Atualizar o Sistema
+
+```bash
+sudo apt update
+sudo apt upgrade -y
+```
+
+#### Passo 2: Instalar Python e Ferramentas
+
+```bash
+sudo apt install python3 python3-pip python3-venv python3-full git -y
+```
+
+#### Passo 3: Verificar a Instalação
+
+```bash
+python3 --version
+pip3 --version
+git --version
+```
+
+#### Passo 4: Clonar o Repositório
+
 ```bash
 git clone https://github.com/PedroASenna/Termometro-de-Comentarios-de-Imperatriz-e-regi-o.git
 cd Termometro-de-Comentarios-de-Imperatriz-e-regi-o
 ```
 
-### Passo 2: Instalar Ferramentas de Ambiente Virtual (Linux/Ubuntu)
-
-Primeiro, garanta que seu sistema tem as ferramentas necessárias para criar ambientes virtuais:
-
-```bash
-sudo apt update
-sudo apt install python3-venv python3-full -y
-```
-
-### Passo 3: Criar o Ambiente Virtual
-
-Crie um ambiente virtual isolado chamado `.venv` na pasta do projeto:
+#### Passo 5: Criar e Ativar Ambiente Virtual
 
 ```bash
 python3 -m venv .venv
-```
-
-> 💡 **O que é um ambiente virtual?** É um espaço isolado onde as dependências do projeto ficam separadas do sistema operacional, evitando conflitos entre projetos.
-
-### Passo 4: Ativar o Ambiente Virtual
-
-Ative o ambiente virtual. Quando ativado, você verá `(.venv)` antes do seu prompt no terminal:
-
-```bash
 source .venv/bin/activate
 ```
 
-> ⚠️ **Importante:** Sempre ative o ambiente virtual antes de trabalhar no projeto!
+> ✅ Quando ativado, você verá `(.venv)` antes do seu prompt
 
-### Passo 5: Instalar as Dependências
-
-Com o ambiente virtual ativo, instale todas as dependências do projeto:
+#### Passo 6: Instalar Dependências
 
 ```bash
 pip install -r requirements.txt
 ```
 
-> ✅ **Pronto!** As bibliotecas foram instaladas apenas dentro do ambiente virtual, sem afetar seu sistema.
+#### Passo 7: Configurar o Projeto
 
-### Desativar o Ambiente Virtual (Quando Terminar)
+```bash
+cp config.example.json config.json
+nano config.json  # ou use seu editor preferido
+```
 
-Para sair do ambiente virtual:
+#### Passo 8: Executar o Projeto
+
+**Backend:**
+```bash
+cd backend
+uvicorn main:app --reload --host 0.0.0.0 --port 8000
+```
+
+**Frontend:**
+- Abra `frontend/index.html` no navegador
+- Ou configure um servidor web (nginx, apache)
+
+#### Desativar o Ambiente Virtual
 
 ```bash
 deactivate
 ```
 
-### Estrutura de Dependências (requirements.txt)
-```txt
-fastapi==0.100.0
-uvicorn[standard]==0.23.0
-sqlalchemy==2.0.19
-pydantic==2.0.0
-requests==2.31.0
-beautifulsoup4==4.12.2
-pandas==2.0.3
-numpy==1.24.3
-python-dotenv==1.0.0
-lxml==4.9.3
+---
+
+### Instalação no macOS
+
+#### Passo 1: Instalar Homebrew (se não tiver)
+
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
+
+#### Passo 2: Instalar Python e Git
+
+```bash
+brew install python git
+```
+
+#### Passo 3: Verificar Instalação
+
+```bash
+python3 --version
+pip3 --version
+git --version
+```
+
+#### Passo 4: Clonar o Repositório
+
+```bash
+git clone https://github.com/PedroASenna/Termometro-de-Comentarios-de-Imperatriz-e-regi-o.git
+cd Termometro-de-Comentarios-de-Imperatriz-e-regi-o
+```
+
+#### Passo 5: Criar e Ativar Ambiente Virtual
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+```
+
+#### Passo 6: Instalar Dependências
+
+```bash
+pip install -r requirements.txt
+```
+
+#### Passo 7: Configurar e Executar
+
+Siga os mesmos passos do Linux para configuração e execução.
 
 ---
 
 ## ⚙️ Configuração
 
-### 1. Configurar Variáveis de Ambiente
+### 1. Arquivo `.env`
 
-Crie um arquivo `.env` na raiz do projeto:
-```bash
-# Database
-DATABASE_URL=sqlite:///./termometro_ma.db
+Crie um arquivo `.env` na raiz do projeto com as seguintes variáveis:
 
-# API Keys (opcional)
-GOOGLE_MAPS_API_KEY=sua_chave_aqui
-OPENAI_API_KEY=sua_chave_aqui
+```env
+# Banco de Dados
+DATABASE_URL=sqlite:///./termometro.db
 
-# Configurações dos Coletores
-DATASUS_ENABLED=true
-GOOGLE_MAPS_ENABLED=false
-FBSP_ENABLED=true
-INEP_ENABLED=true
+# API Keys (se necessário)
+GOOGLE_MAPS_API_KEY=sua_api_key_aqui
+TWITTER_BEARER_TOKEN=seu_token_aqui
+
+# Configurações do Servidor
+HOST=0.0.0.0
+PORT=8000
+DEBUG=True
+
+# Configurações de Coleta
+COLLECT_INTERVAL_HOURS=24
+MAX_RETRIES=3
+TIMEOUT_SECONDS=30
 ```
 
-### 2. Configurar Coletores (Opcional)
+### 2. Arquivo `config.json`
 
-Edite `config.json` para personalizar:
+Configure as cidades e fontes de dados:
+
 ```json
 {
-    "collectors": {
-        "datasus": {
-            "enabled": true,
-            "interval_hours": 24
-        },
-        "google_maps": {
-            "enabled": false,
-            "api_key": "USE_ENV_VARIABLE"
-        }
-    }
+  "cidades_alvo": [
+    "Imperatriz",
+    "São Luís",
+    "Timon",
+    "Açailândia"
+  ],
+  "fontes_ativas": {
+    "datasus": true,
+    "ibge": true,
+    "google_maps": true,
+    "reclame_aqui": true,
+    "fbsp": true,
+    "inep": true,
+    "transparencia": false
+  },
+  "coletores": {
+    "max_workers": 4,
+    "timeout": 30,
+    "retry_attempts": 3
+  }
 }
 ```
 
-### 3. Inicializar Banco de Dados
+### 3. Inicializar o Banco de Dados
+
 ```bash
-python -c "from backend.database import init_db; init_db()"
+cd backend
+python -c "from database import init_db; init_db()"
 ```
 
 ---
 
 ## 🚀 Uso
 
-### Modo Desenvolvimento
+### Executar Coletores de Dados
 
-#### 1. Coletar Dados
+**Coletar dados de todas as fontes:**
 ```bash
-# Executar todos os coletores
-python run_collectors.py
-
-# Ou coletor específico
-python backend/collectors/datasus_collector.py
+python run_collectors.py --all
 ```
 
-#### 2. Iniciar API Backend
+**Coletar de uma fonte específica:**
 ```bash
-# Com auto-reload
-python -m uvicorn backend.main:app --reload --host 0.0.0.0 --port 8000
-
-# Ou com configurações customizadas
-uvicorn backend.main:app --reload --log-level info
+python run_collectors.py --source datasus
 ```
 
-#### 3. Abrir Frontend
+**Coletar com filtro de cidade:**
 ```bash
-# Opção 1: Servidor HTTP simples
-python -m http.server 8080
-
-# Opção 2: Abrir diretamente
-# Abra frontend/index.html no navegador
+python run_collectors.py --all --city "Imperatriz"
 ```
 
-#### 4. Acessar a Aplicação
-```
-Frontend: http://localhost:8080
-API Docs: http://localhost:8000/docs
-API ReDoc: http://localhost:8000/redoc
-```
-
-### Modo Produção
+### Executar o Backend (API)
 
 ```bash
-# Com Gunicorn + Uvicorn workers
-gunicorn backend.main:app -w 4 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000
-
-# Ou com Uvicorn direto (menos workers)
-uvicorn backend.main:app --host 0.0.0.0 --port 8000 --workers 2
+cd backend
+uvicorn main:app --reload --host 0.0.0.0 --port 8000
 ```
+
+A API estará disponível em: `http://localhost:8000`
+
+**Documentação interativa:**
+- Swagger UI: `http://localhost:8000/docs`
+- ReDoc: `http://localhost:8000/redoc`
+
+### Executar o Frontend
+
+1. **Opção 1 - Navegador Direto:**
+   - Abra `frontend/index.html` no navegador
+
+2. **Opção 2 - Servidor Local (recomendado):**
+   ```bash
+   # Com Python
+   cd frontend
+   python -m http.server 8080
+   ```
+   Acesse: `http://localhost:8080`
+
+3. **Opção 3 - Live Server (VSCode):**
+   - Instale a extensão "Live Server"
+   - Clique com botão direito em `index.html`
+   - Selecione "Open with Live Server"
 
 ---
 
-## 📊 Fontes de Dados
+## 📡 Fontes de Dados
 
-### Fontes Oficiais
-| Fonte | Tipo | Temas | Atualização |
-|-------|------|-------|-------------|
-| **DATASUS** | Saúde pública | Saúde | Mensal |
-| **IBGE** | Demografia | Demografia, Infraestrutura | Anual |
-| **FBSP** | Segurança | Segurança | Anual |
-| **INEP** | Educação | Educação | Anual |
-| **Portal da Transparência** | Gestão | Administração Pública | Diário |
+### Fontes Governamentais
+1. **DATASUS** - Dados do Sistema Único de Saúde
+   - URL: `datasus.saude.gov.br`
+   - Dados: Estatísticas de saúde, atendimentos, leitos
+   - Atualização: Mensal
 
-### Fontes Não-Oficiais
-| Fonte | Tipo | Temas | Atualização |
-|-------|------|-------|-------------|
-| **Google Maps** | Reviews | Todos | Tempo Real |
-| **Reclame Aqui** | Reclamações | Comércio | Tempo Real |
-| **Portais de Notícias** | Notícias | Todos | Diário |
+2. **IBGE** - Instituto Brasileiro de Geografia e Estatística
+   - URL: `ibge.gov.br`
+   - Dados: Demografia, economia, infraestrutura
+   - Atualização: Anual/Mensal
 
-### Métricas de Qualidade
-Cada registro recebe um **score de qualidade (0-100)** baseado em:
-- ✅ Completude dos campos (peso: 40%)
-- ✅ Atualidade dos dados (peso: 20%)
-- ✅ Tamanho do texto (peso: 15%)
-- ✅ Validade do sentimento (peso: 10%)
-- ✅ Confiabilidade da fonte (peso: 15%)
+3. **INEP** - Instituto Nacional de Estudos e Pesquisas Educacionais
+   - URL: `inep.gov.br`
+   - Dados: Censo escolar, IDEB, matrículas
+   - Atualização: Anual
+
+4. **FBSP** - Fórum Brasileiro de Segurança Pública
+   - URL: `forumseguranca.org.br`
+   - Dados: Criminalidade, violência
+   - Atualização: Anual
+
+5. **Portal da Transparência**
+   - URL: `portaltransparencia.gov.br`
+   - Dados: Gastos públicos, convênios
+   - Atualização: Diária
+
+### Fontes Privadas
+6. **Google Maps API**
+   - Dados: Avaliações de estabelecimentos, POIs
+   - Atualização: Tempo real
+
+7. **Reclame Aqui**
+   - URL: `reclameaqui.com.br`
+   - Dados: Reclamações de empresas locais
+   - Atualização: Tempo real
 
 ---
 
@@ -377,68 +599,127 @@ Cada registro recebe um **score de qualidade (0-100)** baseado em:
 
 ### Endpoints Principais
 
-#### Obter Scores das Cidades
+#### 1. Obter Dados Filtrados
 ```http
-GET /api/scores?theme=Saúde&location=Imperatriz
+GET /api/data?page=1&per_page=100
 ```
+
+**Parâmetros:**
+- `page` (int): Número da página
+- `per_page` (int): Itens por página (max: 1000)
+- `source` (str): Filtrar por fonte
+- `theme` (str): Filtrar por tema
+- `location` (str): Filtrar por localização
+- `sentiment` (str): Filtrar por sentimento
+- `min_quality` (int): Qualidade mínima (0-100)
+- `start_date` (str): Data inicial (ISO format)
+- `end_date` (str): Data final (ISO format)
+
 **Resposta:**
 ```json
 {
-  "Imperatriz": 75.4,
-  "São Luís": 68.2,
-  "Açailândia": 71.8
+  "total": 15234,
+  "page": 1,
+  "per_page": 100,
+  "data": [
+    {
+      "id": 1,
+      "source_platform": "DATASUS",
+      "theme": "Saúde",
+      "location": "Imperatriz",
+      "sentiment": "NEGATIVO",
+      "content": "...",
+      "quality_score": 85,
+      "timestamp_utc": "2025-01-15T10:30:00"
+    }
+  ]
 }
 ```
 
-#### Obter Menções Filtradas
+#### 2. Estatísticas Gerais
 ```http
-GET /api/mentions?theme=Segurança&sentiment=NEGATIVO&skip=0&limit=100
+GET /api/stats
 ```
 
-#### Obter Dados de Comparação
-```http
-GET /api/data/comparison?theme=Todos&location=Imperatriz
-```
 **Resposta:**
 ```json
 {
-  "status": "success",
-  "data": {
-    "summary": {
-      "total_records": 195819,
-      "avg_quality": 89.5,
-      "positive_rate": 72.3
-    },
-    "source_comparison": [...],
-    "theme_comparison": [...],
-    "location_comparison": [...],
-    "temporal_analysis": [...]
+  "total_registros": 50000,
+  "total_fontes": 7,
+  "total_cidades": 217,
+  "satisfacao_geral": 65.4,
+  "por_sentimento": {
+    "POSITIVO": 12500,
+    "NEGATIVO": 25000,
+    "NEUTRO": 12500
+  },
+  "por_tema": {
+    "Saúde": 15000,
+    "Segurança": 12000,
+    "Educação": 10000
   }
 }
 ```
 
-### Documentação Interativa
-- **Swagger UI**: http://localhost:8000/docs
-- **ReDoc**: http://localhost:8000/redoc
+#### 3. Dados por Município
+```http
+GET /api/cities
+```
+
+**Resposta:**
+```json
+[
+  {
+    "cidade": "Imperatriz",
+    "score_satisfacao": 68.5,
+    "total_mencoes": 5234,
+    "sentimento_predominante": "NEGATIVO",
+    "coordenadas": {
+      "lat": -5.5242,
+      "lon": -47.4919
+    }
+  }
+]
+```
+
+#### 4. Análise Temporal
+```http
+GET /api/trends?theme=Saúde&days=30
+```
+
+#### 5. Exportar Dados
+```http
+GET /api/export?format=csv
+```
+
+Formatos suportados: `csv`, `json`, `xlsx`
+
+### Códigos de Status
+
+- `200 OK`: Sucesso
+- `400 Bad Request`: Parâmetros inválidos
+- `404 Not Found`: Recurso não encontrado
+- `500 Internal Server Error`: Erro no servidor
 
 ---
 
 ## 🎨 Frontend
 
-### Páginas
+### Páginas Principais
 
-#### 1. Página Principal (`index.html`)
-- **Mapa Interativo**: Visualização de 217 cidades do Maranhão
-- **Termômetro Visual**: Indicador de satisfação (0-100%)
-- **Filtros Dinâmicos**: Por tema e cidade
-- **Estatísticas**: Total, positivos, negativos
-
-#### 2. Análise de Dados (`paginas/Fonte_de_dados.html`)
+#### 1. Dashboard Principal (`index.html`)
+- **Mapa Interativo**: 217 cidades do Maranhão com Leaflet.js
+- **Termômetro de Satisfação**: Indicador visual em tempo real
 - **Tabelas Comparativas**: Fontes, temas, cidades
 - **Gráficos Interativos**: Chart.js com múltiplos tipos
 - **Filtros Avançados**: 9 filtros independentes
 - **Análise Temporal**: Evolução ao longo do tempo
 - **Exportação**: Relatórios e gráficos
+
+#### 2. Análise de Fontes (`Fonte_de_dados.html`)
+- Comparação detalhada entre fontes
+- Gráficos de distribuição
+- Métricas de confiabilidade
 
 ### Características do Frontend
 - ✅ **Responsivo**: Adaptável a mobile, tablet e desktop
@@ -446,6 +727,13 @@ GET /api/data/comparison?theme=Todos&location=Imperatriz
 - ✅ **UX Moderna**: Animações suaves e feedback visual
 - ✅ **Acessibilidade**: Seguindo boas práticas WCAG
 - ✅ **Fallbacks**: Sistema resiliente a falhas da API
+
+### Tecnologias do Frontend
+- **Leaflet.js**: Mapas interativos com camadas personalizadas
+- **Chart.js**: Gráficos responsivos (linha, barra, pizza, radar)
+- **Vanilla JS**: Sem frameworks pesados, performance otimizada
+- **CSS Grid/Flexbox**: Layout moderno e responsivo
+- **Font Awesome**: Biblioteca de ícones
 
 ---
 
@@ -461,7 +749,8 @@ termometro-comentarios/
 │   │   ├── fbsp_collector.py         # Coletor FBSP
 │   │   ├── inep_collector.py         # Coletor INEP
 │   │   ├── reclameaqui_collector.py  # Coletor Reclame Aqui
-│   │   └── ...
+│   │   ├── ibge_collector.py         # Coletor IBGE
+│   │   └── transparencia_collector.py # Portal da Transparência
 │   ├── data_analyzer.py               # Análise e agregação de dados
 │   ├── database.py                    # Configuração do banco
 │   ├── models.py                      # Modelos SQLAlchemy
@@ -479,9 +768,9 @@ termometro-comentarios/
 │   │   └── fonte_de_dados.css        # Estilos da análise
 │   └── index.html                     # Página principal
 ├── tests/
-│   ├── test_collectors.py
-│   ├── test_analysis.py
-│   └── test_api.py
+│   ├── test_collectors.py             # Testes dos coletores
+│   ├── test_analysis.py               # Testes de análise
+│   └── test_api.py                    # Testes da API
 ├── .env                               # Variáveis de ambiente (não versionar)
 ├── .gitignore                         # Arquivos ignorados pelo Git
 ├── config.example.json                # Template de configuração
@@ -523,6 +812,13 @@ score = (
 score = max(0, min(100, score))  # Limitado entre 0-100
 ```
 
+### Score de Qualidade dos Dados
+Cada registro recebe um score de 0-100 baseado em:
+- **Completude** (30%): Campos preenchidos
+- **Consistência** (25%): Validação de dados
+- **Atualidade** (20%): Recência da informação
+- **Confiabilidade da Fonte** (25%): Reputação da fonte
+
 ---
 
 ## ⚡ Performance
@@ -536,6 +832,7 @@ score = max(0, min(100, score))  # Limitado entre 0-100
 - ✅ **Cache de Agregações**: Resultados pré-calculados
 - ✅ **Conexão Pooling**: Reutilização de conexões SQL
 - ✅ **Async/Await**: FastAPI com processamento assíncrono
+- ✅ **Bulk Operations**: Inserção em lote (1000+ registros/vez)
 
 #### Frontend
 - ✅ **Lazy Loading**: Carregamento progressivo de gráficos
@@ -543,6 +840,7 @@ score = max(0, min(100, score))  # Limitado entre 0-100
 - ✅ **Chart.js Performance**: Canvas rendering
 - ✅ **Fallback System**: 3 níveis de fallback para filtros
 - ✅ **Memoization**: Cache de resultados de API
+- ✅ **Virtual Scrolling**: Para grandes listas
 
 ### Benchmarks
 - **Coleta de Dados**: ~50.000 registros/hora
@@ -550,6 +848,7 @@ score = max(0, min(100, score))  # Limitado entre 0-100
 - **Query Complexa**: < 200ms (95th percentile)
 - **Renderização Mapa**: < 1s para 217 cidades
 - **Carregamento Frontend**: < 2s (first contentful paint)
+- **Inserção Bulk**: ~10.000 registros/segundo
 
 ---
 
@@ -569,8 +868,18 @@ git checkout -b feature/NovaFuncionalidade
 
 ### 3. Commit suas Mudanças
 ```bash
+git add .
 git commit -m "Add: Nova funcionalidade X"
 ```
+
+**Padrões de Commit:**
+- `Add:` Nova funcionalidade
+- `Fix:` Correção de bug
+- `Update:` Atualização de código existente
+- `Refactor:` Refatoração sem mudança de funcionalidade
+- `Docs:` Apenas documentação
+- `Style:` Formatação, ponto e vírgula, etc
+- `Test:` Adição de testes
 
 ### 4. Push para a Branch
 ```bash
@@ -578,16 +887,67 @@ git push origin feature/NovaFuncionalidade
 ```
 
 ### 5. Abra um Pull Request
-- Descreva suas mudanças
+- Descreva suas mudanças detalhadamente
 - Referencie issues relacionadas
+- Adicione screenshots se aplicável
 - Aguarde review
 
 ### Diretrizes
 - ✅ Código limpo e documentado
 - ✅ Testes unitários (quando aplicável)
 - ✅ Seguir PEP 8 (Python)
-- ✅ Commits descritivos
+- ✅ Commits descritivos em português
 - ✅ Atualizar documentação
+- ✅ Manter compatibilidade com Python 3.8+
+
+### Reportar Bugs
+Ao reportar bugs, inclua:
+- Descrição clara do problema
+- Passos para reproduzir
+- Comportamento esperado vs atual
+- Sistema operacional e versão do Python
+- Logs de erro (se houver)
+
+---
+
+## 🐛 Resolução de Problemas
+
+### Problemas Comuns
+
+#### 1. Erro ao ativar ambiente virtual no Windows (PowerShell)
+```
+.venv\Scripts\Activate.ps1 : não pode ser carregado porque a execução de scripts foi desabilitada
+```
+**Solução:**
+```powershell
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+```
+
+#### 2. Módulo não encontrado após instalação
+```
+ModuleNotFoundError: No module named 'fastapi'
+```
+**Solução:**
+- Verifique se o ambiente virtual está ativado
+- Reinstale as dependências: `pip install -r requirements.txt`
+
+#### 3. Erro de conexão com banco de dados
+```
+sqlalchemy.exc.OperationalError: unable to open database file
+```
+**Solução:**
+- Verifique permissões da pasta
+- Crie o banco: `python -c "from database import init_db; init_db()"`
+
+#### 4. API não responde
+- Verifique se o uvicorn está rodando
+- Confirme a porta 8000 está disponível
+- Verifique firewall
+
+#### 5. Frontend não carrega dados
+- Confirme que a API está rodando em `http://localhost:8000`
+- Verifique o console do navegador (F12) para erros
+- Teste os endpoints da API diretamente: `http://localhost:8000/docs`
 
 ---
 
@@ -626,7 +986,7 @@ SOFTWARE.
 **Pedro Senna**
 - GitHub: [@PedroASenna](https://github.com/PedroASenna)
 - LinkedIn: [Pedro Azevedo Sena](https://www.linkedin.com/in/pedro-azevedo-sena-7aa711302/)
-- Email: [pedrologingt232@gmail.com]
+- Email: pedrologingt232@gmail.com
 
 ---
 
@@ -635,6 +995,7 @@ SOFTWARE.
 - **Fontes de Dados**: DATASUS, IBGE, FBSP, INEP, Portal da Transparência
 - **Bibliotecas Open Source**: FastAPI, SQLAlchemy, BeautifulSoup, Leaflet, Chart.js
 - **Comunidade Python**: Pela excelente documentação e suporte
+- **Comunidade de Desenvolvedores**: Por feedback e contribuições
 
 ---
 
@@ -642,15 +1003,56 @@ SOFTWARE.
 
 ### Versão 2.0 (Futuro)
 - [ ] Machine Learning para previsão de tendências
-- [ ] Dashboard administrativo
+- [ ] Dashboard administrativo com autenticação
 - [ ] API de integração com outros sistemas
 - [ ] App mobile (React Native)
 - [ ] Suporte a PostgreSQL e MySQL
-- [ ] Autenticação e autorização (OAuth2)
-- [ ] Sistema de notificações
+- [ ] Autenticação e autorização (OAuth2, JWT)
+- [ ] Sistema de notificações em tempo real
 - [ ] Export para Power BI / Tableau
 - [ ] Análise de imagens (Computer Vision)
-- [ ] Chatbot integrado
+- [ ] Chatbot integrado com IA
+- [ ] Relatórios automáticos em PDF
+- [ ] Integração com redes sociais (Twitter, Facebook)
+- [ ] Sistema de alerta para anomalias
+- [ ] API GraphQL
+
+### Melhorias Planejadas
+- [ ] Testes automatizados (coverage > 80%)
+- [ ] CI/CD com GitHub Actions
+- [ ] Docker e Docker Compose
+- [ ] Documentação em inglês
+- [ ] Tutorial em vídeo
+- [ ] Performance monitoring (APM)
+
+---
+
+## 📚 Recursos Adicionais
+
+### Documentação
+- [Documentação FastAPI](https://fastapi.tiangolo.com/)
+- [SQLAlchemy ORM](https://docs.sqlalchemy.org/)
+- [Leaflet.js Docs](https://leafletjs.com/reference.html)
+- [Chart.js Documentation](https://www.chartjs.org/docs/latest/)
+
+### Tutoriais Recomendados
+- [Python Virtual Environments](https://docs.python.org/3/tutorial/venv.html)
+- [REST API Best Practices](https://restfulapi.net/)
+- [Web Scraping Ethics](https://www.scrapehero.com/web-scraping-ethics/)
+
+### Comunidade
+- [Python Brasil](https://python.org.br/)
+- [FastAPI Discord](https://discord.com/invite/fastapi)
+- [Stack Overflow - Python](https://stackoverflow.com/questions/tagged/python)
+
+---
+
+## 📊 Estatísticas do Projeto
+
+![GitHub Repo Size](https://img.shields.io/github/repo-size/PedroASenna/Termometro-de-Comentarios-de-Imperatriz-e-regi-o)
+![GitHub Last Commit](https://img.shields.io/github/last-commit/PedroASenna/Termometro-de-Comentarios-de-Imperatriz-e-regi-o)
+![GitHub Issues](https://img.shields.io/github/issues/PedroASenna/Termometro-de-Comentarios-de-Imperatriz-e-regi-o)
+![GitHub Pull Requests](https://img.shields.io/github/issues-pr/PedroASenna/Termometro-de-Comentarios-de-Imperatriz-e-regi-o)
 
 ---
 
@@ -661,5 +1063,7 @@ SOFTWARE.
 ⭐ Se este projeto foi útil, considere dar uma estrela no GitHub!
 
 [![Star on GitHub](https://img.shields.io/github/stars/PedroASenna/Termometro-de-Comentarios-de-Imperatriz-e-regi-o?style=social)](https://github.com/PedroASenna/Termometro-de-Comentarios-de-Imperatriz-e-regi-o)
+
+**[⬆ Voltar ao topo](#-termômetro-de-comentários---imperatriz-e-região)**
 
 </div>
