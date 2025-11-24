@@ -825,18 +825,22 @@ function renderSourceChart() {
             labels: data.map(d => d.source),
             datasets: [
                 {
-                    label: 'Total',
-                    data: data.map(d => d.total),
+                    label: 'Positivo',
+                    data: data.map(d => d.positive_rate),
                     backgroundColor: chartColors.primary,
-                    borderRadius: 4,
-                    yAxisID: 'y'
+                    borderRadius: 4
                 },
                 {
-                    label: 'Qualidade',
-                    data: data.map(d => d.avg_quality),
-                    backgroundColor: chartColors.secondary,
-                    borderRadius: 4,
-                    yAxisID: 'y1'
+                    label: 'Negativo',
+                    data: data.map(d => d.negative_rate),
+                    backgroundColor: chartColors.quaternary,
+                    borderRadius: 4
+                },
+                {
+                    label: 'Neutro',
+                    data: data.map(d => d.neutral_rate),
+                    backgroundColor: chartColors.quinary,
+                    borderRadius: 4
                 }
             ]
         },
@@ -848,15 +852,14 @@ function renderSourceChart() {
                     display: true,
                     position: 'left',
                     beginAtZero: true,
-                    grid: { display: true, drawBorder: false }
-                },
-                y1: {
-                    type: 'linear',
-                    display: true,
-                    position: 'right',
                     min: 0,
                     max: 100,
-                    grid: { display: false }
+                    grid: { display: true, drawBorder: false },
+                    ticks: {
+                        callback: function(value) {
+                            return value + '%';
+                        }
+                    }
                 },
                 x: {
                     grid: { display: false }
@@ -913,8 +916,8 @@ function renderLocationChart() {
         data: {
             labels: data.map(d => d.location),
             datasets: [{
-                label: 'Total',
-                data: data.map(d => d.total),
+                label: 'Positivo (%)',
+                data: data.map(d => d.positive_rate),
                 backgroundColor: chartColors.primary,
                 borderRadius: 4
             }]
@@ -925,7 +928,14 @@ function renderLocationChart() {
             scales: {
                 x: {
                     beginAtZero: true,
-                    grid: { display: true, drawBorder: false }
+                    min: 0,
+                    max: 100,
+                    grid: { display: true, drawBorder: false },
+                    ticks: {
+                        callback: function(value) {
+                            return value + '%';
+                        }
+                    }
                 },
                 y: {
                     grid: { display: false }
