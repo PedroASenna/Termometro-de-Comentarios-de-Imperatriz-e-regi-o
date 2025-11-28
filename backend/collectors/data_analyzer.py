@@ -416,14 +416,13 @@ class DataAnalyzer:
     def _create_temporal_analysis_sql(self, query) -> List[Dict]:
         """Análise temporal (SQL)."""
         try:
-            # Agrupa por data. Isso pode ser lento se houver muitos dias únicos.
-            # Vamos agrupar por 'Ano-Mês' para ser mais rápido.
-            stmt = query.group_by(func.strftime('%Y-%m', Mention.timestamp_utc)).with_entities(
-                func.strftime('%Y-%m', Mention.timestamp_utc).label('date'),
+            # Agrupa por data completa (dia) para mostrar evolução diária
+            stmt = query.group_by(func.strftime('%Y-%m-%d', Mention.timestamp_utc)).with_entities(
+                func.strftime('%Y-%m-%d', Mention.timestamp_utc).label('date'),
                 func.count(Mention.id).label('count'),
                 func.avg(Mention.quality_score).label('avg_quality'),
                 func.avg(case((Mention.sentiment == 'POSITIVO', 1), (Mention.sentiment == 'NEGATIVO', 0), else_=None)).label('positive_rate_avg')
-            ).order_by(func.strftime('%Y-%m', Mention.timestamp_utc))
+            ).order_by(func.strftime('%Y-%m-%d', Mention.timestamp_utc))
 
             results = []
             for row in stmt.all():
