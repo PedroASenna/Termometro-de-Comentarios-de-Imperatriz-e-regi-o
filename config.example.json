@@ -1,0 +1,54 @@
+{
+  "_comentario": "Copie este arquivo para 'config.json' na raiz do projeto. É o arquivo lido pelo PublicOpinionCollector (backend/collectors/public_opinion_collector.py) via run_collectors.py. Se 'config.json' não existir, o run_collectors.py tenta usar 'scrapers_config.json' como alternativa.",
+
+  "sites": [
+    {
+      "name": "G1 Maranhão",
+      "url": "https://g1.globo.com/ma/maranhao/",
+      "categories": ["noticia/politica/", "noticia/economia/", "noticia/seguranca/", "noticia/cidades/"],
+      "selectors": {
+        "article_link": "a.feed-post-link",
+        "title": "h1.content-head__title",
+        "content": "article.content-text",
+        "comments": ".comments-list .comment-body"
+      },
+      "enable_comments": true,
+      "max_articles": 50
+    },
+    {
+      "name": "Imirante",
+      "url": "https://imirante.com/",
+      "categories": ["noticias/sao-luis/", "noticias/policia/", "noticias/economia/", "noticias/interior/"],
+      "selectors": {
+        "article_link": "a.list-item__title",
+        "title": "h1.article-header__title",
+        "content": "div.article-content",
+        "comments": ".comments .comment-content"
+      },
+      "enable_comments": true,
+      "max_articles": 50
+    },
+    {
+      "name": "Jornal Pequeno",
+      "url": "https://www.jornalpequeno.com.br/",
+      "categories": ["category/policia/", "category/economia/", "category/politica/", "category/cidades/"],
+      "selectors": {
+        "article_link": "h3.entry-title a",
+        "title": "h1.entry-title",
+        "content": "div.entry-content",
+        "comments": ".comment-content p"
+      },
+      "enable_comments": true,
+      "max_articles": 40
+    }
+  ],
+
+  "keywords_expansion": {
+    "Segurança": ["policia", "crime", "assalto", "roubo", "homicidio", "violencia"],
+    "Infraestrutura": ["rua", "buraco", "asfalto", "ponte", "obra", "saneamento"],
+    "Comércio": ["preco", "comercio", "supermercado", "loja", "consumidor"],
+    "Saúde": ["hospital", "posto", "sus", "medico", "consulta"],
+    "Educação": ["escola", "professor", "aluno", "ensino", "universidade"],
+    "Transporte": ["onibus", "transporte", "terminal", "passagem", "transito"]
+  }
+}

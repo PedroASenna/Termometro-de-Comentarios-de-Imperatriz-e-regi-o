@@ -98,6 +98,10 @@ collected_data/
 # EXCEÇÃO: Manter apenas GeoJSON essencial
 !ma_cities.geojson
 
+# EXCEÇÃO: templates de configuração precisam ser versionados
+!config.example.json
+!.env.example
+
 # ==================== NOTEBOOKS ====================
 notebooks/
 *.ipynb
