@@ -1,41 +1,36 @@
+# =============================================================================
+# NÚCLEO — necessário para rodar o backend (FastAPI) e o frontend/servidor local
+# =============================================================================
+fastapi>=0.104.1
+uvicorn[standard]>=0.24.0
+sqlalchemy>=2.0.23
+pandas>=2.1.3
+requests>=2.31.0
+beautifulsoup4>=4.12.2
+openpyxl>=3.1.2
+python-dotenv>=1.0.0
+aiofiles>=23.2.1
 
-# Backend Framework & Server
-fastapi
-uvicorn[standard]
+# =============================================================================
+# COLETORES / WEB SCRAPING (usados por run_collectors.py e backend/collectors)
+# =============================================================================
+selenium>=4.15.0
+webdriver-manager>=4.0.1
+geopandas>=0.14.0
 
-# Database
-sqlalchemy
+# =============================================================================
+# COLETORES EXPERIMENTAIS (usados apenas pelos scripts legados em src/,
+# ex.: src/collectors/youtube_collector.py — opcional)
+# =============================================================================
+google-api-python-client>=2.100.0
+google-auth-oauthlib>=1.1.0
+google-auth-httplib2>=0.1.1
 
-# Data Handling & APIs
-pandas
-requests
-beautifulsoup4
-openpyxl
-
-# Utilities
-python-dotenv
-
-aiofiles
-
-# Google API for YouTube
-google-api-python-client
-google-auth-oauthlib
-google-auth-httplib2
-
-# Web Scraping
-selenium
-beautifulsoup4
-webdriver-manager
-
-# Data Handling & Requests
-pandas
-requests
-geopandas
-
-# Dashboard Web Interativo
-streamlit
-plotly
-wordcloud
-matplotlib
-openpyxl
-
+# =============================================================================
+# DASHBOARD ALTERNATIVO (dashboard.py, streamlit — opcional, não é necessário
+# para rodar o backend + frontend padrão descritos no README)
+# =============================================================================
+streamlit>=1.28.0
+plotly>=5.17.0
+wordcloud>=1.9.2
+matplotlib>=3.8.0
